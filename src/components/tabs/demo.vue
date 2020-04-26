@@ -1,8 +1,5 @@
 <template>
   <div class="content">
-    <NavBar>
-      <div slot="center">首页</div>
-    </NavBar>
     <Tabs
       class="tab-control"
       :titles="['流行', '新款', '精选']"
@@ -12,12 +9,10 @@
 </template>
 <script>
   import Tabs from 'components/tabs'
-  import NavBar from 'components/navbar'
 
   export default {
     components: {
-      Tabs,
-      NavBar
+      Tabs
     },
     data() {
       return {
