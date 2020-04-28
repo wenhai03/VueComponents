@@ -1,35 +1,67 @@
 <template>
   <div class="content">
-    <NavBar>
-      <div slot="center">首页</div>
-    </NavBar>
-    <Tabs
-      class="tab-control"
-      :titles="['流行', '新款', '精选']"
-      @tabClick="tabClick"
-    ></Tabs>
+    <div>
+      {{this.value}}
+    </div>
+
+    <!--  获取用户选择的数据  -->
+    <Cascader :options="options" v-model="value"/>
   </div>
 </template>
 <script>
-  import Tabs from 'components/tabs'
-  import NavBar from 'components/navbar'
-
+  import Cascader from 'components/cascader'
   export default {
     components: {
-      Tabs,
-      NavBar
+      Cascader,
     },
     data() {
       return {
-        openList: [],
-        openListValue: [],
-        currentType: 'pop'
+        value: [],
+        options: [
+          {
+            label: '肉类',
+            children: [
+              {
+                label: '猪肉',
+                children: [
+                  {label: '鸡腿'}
+                ]
+              },
+              {
+                label: '五花肉',
+                children: [
+                  {label: '鸡翅'}
+                ]
+              }
+            ]
+          },
+          {
+            label: '蔬菜',
+            children: [
+              {
+                label: '菠菜',
+                children: [
+                  {label: '菠菜111'}
+                ]
+              },
+              {
+                label: '上海菜',
+                children: [
+                  {label: '上海菜111'}
+                ]
+              }
+            ]
+          }
+        ],
       };
     },
     mounted() {
       this.getList();
     },
     methods: {
+      handleNotify() {
+        this.$notify('我很丑')
+      },
       getList() {
       },
       tabClick(index) {
