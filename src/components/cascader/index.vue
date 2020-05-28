@@ -49,7 +49,8 @@
       },
       change(value){
         this.$emit('input', value)
-      }
+      },
+      close(){}
     },
 
   }

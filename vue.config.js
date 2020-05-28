@@ -5,9 +5,13 @@ module.exports = {
         'assets': '@/assets',
         'common': '@/common',
         'components': '@/components',
-        'network': '@/network',
         'views': '@/views',
       }
     }
+  },
+  // 打包时不生成.map文件
+  productionSourceMap: false,
+  devServer: {
+    // proxy: 'http://localhost:3000'
   }
 }

@@ -6,10 +6,18 @@
 
     <!--  获取用户选择的数据  -->
     <Cascader :options="options" v-model="value"/>
+    <el-button @click="getInfo" >请求数据</el-button>
+
+<!--    <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>-->
+    <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
   </div>
 </template>
 <script>
+  import { getUserInfo } from '@/api/user'
+  import { getFolderList, getFileList } from '@/api/data'
+  import { putFileInFolder, transferFolderToTree } from '@/lib/util'
   import Cascader from 'components/cascader'
+
   export default {
     components: {
       Cascader,
@@ -53,12 +61,36 @@
             ]
           }
         ],
+        treeData: [],
+
+        defaultProps: {
+          children: 'children',
+          label: 'name'
+        }
       };
     },
     mounted() {
       this.getList();
+      Promise.all([getFolderList(), getFileList()]).then(res => {
+        console.log('res[0]------', res[0])
+        console.log('res[1]------', res[1])
+
+        console.log('33333------', putFileInFolder(res[0], res[1]))
+        console.log('44444------', transferFolderToTree(putFileInFolder(res[0], res[1])))
+
+        this.treeData = transferFolderToTree(putFileInFolder(res[0], res[1]))
+      })
     },
     methods: {
+      handleNodeClick () {},
+      getInfo () {
+        console.log('000000000------')
+        getUserInfo({ userId: 21 }).then(res => {
+          console.log('res: ', res)
+          // this.url = res.data.img
+          // this.bgColor = res.data.color
+        })
+      },
       handleNotify() {
         this.$notify('我很丑')
       },

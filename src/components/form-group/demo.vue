@@ -9,7 +9,7 @@
 </template>
 <script>
   import FormGroup from './components/form-group/form-group'
-  import Upload from './upload'
+  import Upload from './upload-file'
 
   export default {
     components: {

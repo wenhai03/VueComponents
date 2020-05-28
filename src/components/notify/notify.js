@@ -5,7 +5,7 @@ let nofify = { // 需要在此对象中拥有一个install方法
 }
 
 nofify.install = function (Vue, options={delay: 3000}) {
-  console.log('Vue, option------', Vue, options)
+  // console.log('Vue, option------', Vue, options)
   if (nofify.el) return
   
   Vue.prototype.$notify = function (message, opt = {}) {

@@ -9,6 +9,8 @@ import moment from 'moment'
 import nofify from "./components/notify/notify.js"
 
 
+if (process.env.NODE_ENV !== 'production') require('./mock')
+
 Vue.use(ElementUI)
 Vue.use(nofify, {delay: 5000})
 // 定义全局的过滤器
