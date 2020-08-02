@@ -1,6 +1,19 @@
 import axios from 'axios'
+import store from '@/store'
 import { baseURL } from '@/config'
-// import { getToken } from '@/lib/util'
+// import { getToken } from '@/libs/util'
+
+const addErrorLog = errorInfo => {
+  const { statusText, status, request: { responseURL } } = errorInfo
+  let info = {
+    type: 'ajax',
+    code: status,
+    mes: statusText,
+    url: responseURL
+  }
+  if (!responseURL.includes('save_error_logger')) store.dispatch('addErrorLog', info)
+}
+
 class HttpRequest {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -39,6 +52,8 @@ class HttpRequest {
       return data
     }, error => {
       this.distroy(url)
+  
+      addErrorLog(error)
       return Promise.reject(error.response.data)
     })
   }

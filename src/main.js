@@ -7,7 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import moment from 'moment'
 
 import nofify from "./components/notify/notify.js"
-
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+Vue.use(iView)
 
 if (process.env.NODE_ENV !== 'production') require('./mock')
 

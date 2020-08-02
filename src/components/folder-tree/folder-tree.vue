@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { putFileInFolder, transferFolderToTree, expandSpecifiedFolder } from '@/lib/util'
+  import { putFileInFolder, transferFolderToTree, expandSpecifiedFolder } from '@/libs/util'
   import clonedeep from 'clonedeep'
   export default {
     name: 'FolderTree',

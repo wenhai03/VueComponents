@@ -3,28 +3,33 @@
     <div>
       {{this.value}}
     </div>
-
     <!--  获取用户选择的数据  -->
     <Cascader :options="options" v-model="value"/>
     <el-button @click="getInfo" >请求数据</el-button>
 
 <!--    <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>-->
     <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+
+    <Slider :value.sync="value1" range></Slider>
+    <login-form></login-form>
   </div>
 </template>
 <script>
   import { getUserInfo } from '@/api/user'
   import { getFolderList, getFileList } from '@/api/data'
-  import { putFileInFolder, transferFolderToTree } from '@/lib/util'
+  import { putFileInFolder, transferFolderToTree } from '@/libs/util'
   import Cascader from 'components/cascader'
+  import LoginForm from 'components/main/login-form'
 
   export default {
     components: {
       Cascader,
+      LoginForm
     },
     data() {
       return {
         value: [],
+        value1: [20, 50],
         options: [
           {
             label: '肉类',

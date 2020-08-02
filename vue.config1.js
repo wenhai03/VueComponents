@@ -6,7 +6,7 @@ module.exports = {
         'common': '@/common',
         'components': '@/components',
         'network': '@/network',
-        'views': '@/views',
+        'views': '@/view',
       }
     }
   }
@@ -94,7 +94,7 @@ module.exports = {
         alias: {
           '@': path.resolve(__dirname, './src'),
           '@c': path.resolve(__dirname, './src/components'),
-          '@v': path.resolve(__dirname, './src/views')
+          '@v': path.resolve(__dirname, './src/view')
         } // 别名配置
       }
     })
