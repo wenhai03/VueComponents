@@ -1,72 +1,87 @@
 <template>
-  <div>
-    <h3>Element表单</h3>
-    <hr>
-    <k-form :model="model" :rules="rules" ref="loginForm">
-      <k-form-item label="用户名" prop="username">
-        <k-input v-model="model.username" autocomplete="off" placeholder="输入用户名"></k-input>
-      </k-form-item>
-
-      <k-form-item label="确认密码" prop="password">
-        <k-input type="password" v-model="model.password" autocomplete="off"></k-input>
-      </k-form-item>
-
-      <k-form-item>
-        <button @click="submitForm('loginForm')">提交</button>
-      </k-form-item>
-    </k-form>
-
-    {{model}}
-
-    <!--<k-form1 :model="model" :rules="rules" ref="loginForm">
-      <k-form1-item label="用户名" prop="username">
-        <k-input v-model="model.username" autocomplete="off" placeholder="输入用户名"></k-input>
-      </k-form1-item>
-      <k-form1-item label="确认密码" prop="password">
-        <k-input type="password" v-model="model.password" autocomplete="off"></k-input>
-      </k-form1-item>
-      <k-form1-item>
-        <button @click="submitForm('loginForm')">提交</button>
-      </k-form1-item>
-    </k-form1>
-    {{model}}-->
-  </div>
+  <el-form ref="form" :model="formData" :label-width="labelWidth">
+    <el-form-item v-for="item in formItme" :key="item.prop" :label="item.label" :prop="item.prop" :rules="item.rules">
+      <!-- Input-->
+      <el-input v-if="item.type === 'Input'" v-model.trim="formData[item.prop]" :placeholder="item.placeholder" :style="{width: item.width}" :disabled="item.disabled"></el-input>
+      <!-- 省市区 -->
+      <slot v-if="item.type === 'Slot'" :name="item.slotName" />
+      <!-- 省市区 -->
+      <el-radio-group v-if="item.type === 'Radio'" v-model="formData[item.prop]">
+        <el-radio v-for="radio in item.options" :label="radio.value" :key="radio.value">{{ radio.label }}</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <!-- 按钮 -->
+    <el-form-item>
+      <el-button v-for="item in formHandler" :key="item.key" :type="item.type" @click="item.handler && item.handler()">
+        {{ item.label }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
-
 <script>
-  // import KForm from "./Form";
-  // import KFormItem from "./FormItem";
-  // import KInput from "./Input";
-
-  // import Notice from "@/components/notice/KNotice";
-
-  export default {
-    components: {
-      KForm,
-      KFormItem,
-      KInput
+// 省市区
+// import CityArea from "@c/common/cityArea";
+export default {
+  name: "Form",
+  components: {
+    // CityArea
+  },
+  props: {
+    labelWidth: {
+      type: String,
+      default: "120px"
     },
-    data() {
-      return {
-        model: { username: "tom", password: "" },
-        rules: {
-          username: [{ required: true, message: "请输入用户名" }],
-          password: [{ required: true, message: "请输入密码" }]
-        }
-      };
+    formData: {
+      type: Object,
+      default: () => {}
     },
-    methods: {
-      submitForm(form) {
-        console.log('form1------', form)
-        // this.$refs[form1].validate(valid => {
-        //   const notice = this.$create(Notice, {
-        //     title: "社会你杨哥喊你来搬砖",
-        //     message: valid ? "请求登录!" : "校验失败!",
-        //     duration: 1000
-        //   });
-        //   notice.show();
-        // });
+    formItme: {
+      type: Array,
+      default: () => []
+    },
+    // 按钮
+    formHandler: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data(){
+    return {
+      type_msg: {
+        "Input": "请输入",
+        "Radio": "请选择"
       }
     }
-  };
+  },
+  methods: {
+    initFormData(){
+      this.formItme.forEach(item => {
+        // rules 规则
+        if(item.required) { this.rules(item); }
+        // 自定义检验规则
+        if(item.validator) { item.rules = item.validator; }
+      })
+    },
+    rules(item){
+      const requiredRules = [{ required: true, message: item.required_msg || `${this.type_msg[item.type]}${item.label}`, trigger: 'change' }];
+      // 其他的 rules 规则
+      if(item.rules && item.rules.length > 0) {
+        item.rules = requiredRules.concat(item.rules);
+      }else{
+        item.rules = requiredRules;
+      }
+    }
+  },
+  watch: {
+    formItme: {
+      handler(){
+        this.initFormData()
+      },
+      immediate: true
+    }
+  }
+}
 </script>
+<style lang="scss" scoped>
+
+</style>

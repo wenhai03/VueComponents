@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+  let str = `template`
+
+  let state = {count: 10}, active
+  function defineProperty (obj) {
+    for (let key in obj) {
+      let value = obj[key] // 对象对应的值
+      let dep = []
+      Object.defineProperty(obj, key, {
+        get () {
+          if (active) {
+            dep.push(active) // 依赖收集
+          }
+          return value
+        },
+        set (newValue) { // 触发更新
+          value = newValue
+          dep.forEach(watcher => watcher())
+        },
+      })
+    }
+  }
+
+  插入
+
+  defineProperty(state)
+
+  // 插入到页面的功能 需要保存起来
+  const watcher = (fn) => {
+    active = fn
+    fn()
+    active = null
+
+  }
+
+  watcher(() => {
+    app.innerHTML = state.count
+  })
+
+  watcher(() => {
+    console.log('state.count -> ', state.count)
+  })
+
+</script>
+</body>
+</html>

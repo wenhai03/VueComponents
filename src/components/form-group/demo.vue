@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-  import FormGroup from './components/form-group/form-group'
-  import Upload from './upload-file'
+  import FormGroup from './form-group'
+  // import Upload from './upload-file'
 
   export default {
     components: {
@@ -59,7 +59,7 @@
             }
           },
 
-          {
+          /*{
             name: 'img',
             type: Upload,
             value: 1,
@@ -68,7 +68,7 @@
             rule: [
               { required: true, message: 'The img cannot be empty', trigger: 'blur' }
             ]
-          },
+          },*/
         ]
       };
     },

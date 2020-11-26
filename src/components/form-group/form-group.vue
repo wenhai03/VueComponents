@@ -14,7 +14,6 @@
       :key="`${_uid}_${index}`"
       @click.native="handleFocus(item.name)"
     >
-
       <component :is="item.type" :range="item.range" v-model="valueList[item.name]" :placeholder="item.placeholder">
         <template v-if="item.children">
           <component
@@ -26,8 +25,8 @@
           </component>
         </template>
       </component>
-
     </el-form-item>
+
     <el-form-item>
       <el-button @click="handleSubmit" type="primary">提交</el-button>
       <el-button @click="handleReset" type="primary">重置</el-button>
